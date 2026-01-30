@@ -13,21 +13,16 @@ class SplitterHandler(Handler):
     def process(self, data: Any) -> Tuple[pd.DataFrame, pd.Series]:
         """
         Делит DataFrame на признаки и целевую переменную.
-
-        :param data: pandas.DataFrame
-        :return: (X, y)
         """
         if not isinstance(data, pd.DataFrame):
             raise TypeError("SplitterHandler ожидает pandas.DataFrame")
 
-        if data.shape[1] < 2:
-            raise ValueError("Недостаточно столбцов для разделения X и y")
+        if "ЗП" not in data.columns:
+            raise ValueError("В данных отсутствует колонка 'ЗП'")
 
         df = data.copy()
 
-        # Последний столбец считаем целевой переменной
-        X = df.iloc[:, :-1]
-        y = df.iloc[:, -1]
+        y = df["ЗП"]
+        X = df.drop(columns=["ЗП"])
 
         return X, y
-

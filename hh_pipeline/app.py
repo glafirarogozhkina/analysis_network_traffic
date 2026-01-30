@@ -5,6 +5,8 @@ from pipeline.cleaner import CleanerHandler
 from pipeline.encoder import EncoderHandler
 from pipeline.splitter import SplitterHandler
 from pipeline.saver import SaverHandler
+from pipeline.salary_parser import SalaryParserHandler
+
 
 
 def main() -> None:
@@ -16,18 +18,20 @@ def main() -> None:
 
     csv_path = sys.argv[1]
 
-    # Создаём обработчики
+    # создаём обработчики
     reader = ReaderHandler()
     cleaner = CleanerHandler()
-    encoder = EncoderHandler()
+    salary_parser = SalaryParserHandler()
     splitter = SplitterHandler()
+    encoder = EncoderHandler()
     saver = SaverHandler()
 
-    # Собираем цепочку
-    reader.set_next(cleaner)\
-          .set_next(encoder)\
-          .set_next(splitter)\
-          .set_next(saver)
+    # собираем цепочку
+    reader.set_next(cleaner)
+    cleaner.set_next(salary_parser)
+    salary_parser.set_next(splitter)
+    splitter.set_next(encoder)
+    encoder.set_next(saver)
 
     # Запускаем пайплайн
     reader.handle(csv_path)

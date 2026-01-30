@@ -32,4 +32,3 @@ class CleanerHandler(Handler):
         df = df.reset_index(drop=True)
 
         return df
-
