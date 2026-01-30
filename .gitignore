@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+
+# IDE
+.idea/
+
+# Data artifacts
+*.npy
+data/
+
+# Jupyter
+.ipynb_checkpoints/
+
